@@ -13,7 +13,7 @@ The `WidgetSpinningWheel` is a customizable Flutter widget that allows you to cr
 - Customize the appearance of the wheel by providing labels and colors.
 - Receive a callback with the selected label when the wheel stops spinning.
 
-![Screenshot](./spin.png)
+![Screenshot](spin.png)
 
 ## Usage
 

@@ -1,7 +1,11 @@
 name: widget_spinning_wheel
 description: Customisable widget for a 'spin the wheel'
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/MenuItem207/widget_spinning_wheel
+  
+screenshots:
+  - description: 'Screenshot image for the widget'
+    path: spin.png
 
 environment:
   sdk: '>=3.0.3 <4.0.0'
