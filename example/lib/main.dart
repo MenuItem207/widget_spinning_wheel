@@ -17,23 +17,7 @@ class MyApp extends StatelessWidget {
           child: WidgetSpinningWheel(
             labels: ['Option 1', 'Option 2', 'Option 3'],
             onSpinComplete: (String label) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Selected Option'),
-                    content: Text('You selected: $label'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
+              print(label);
             },
             size: 200,
           ),
