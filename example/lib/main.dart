@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
             onSpinComplete: (String label) {
               print(label);
             },
-            size: 200,
+            size: 400,
           ),
         ),
       ),

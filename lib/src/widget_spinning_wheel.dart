@@ -77,55 +77,59 @@ class _WidgetSpinningWheelState extends State<WidgetSpinningWheel> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        spin();
-      },
-      onVerticalDragUpdate: (details) {
-        int multiplier = -1;
+    return SizedBox(
+      height: widget.size,
+      width: widget.size,
+      child: GestureDetector(
+        onTap: () {
+          spin();
+        },
+        onVerticalDragUpdate: (details) {
+          int multiplier = -1;
 
-        // check if left or right
-        if (details.localPosition.dx >= widget.size / 2) {
-          multiplier = 1;
-        }
+          // check if left or right
+          if (details.localPosition.dx >= widget.size / 2) {
+            multiplier = 1;
+          }
 
-        currentOffset += multiplier * details.delta.dy / 50;
-        setState(() {});
-      },
-      onVerticalDragEnd: (details) {
-        double velocity = details.velocity.pixelsPerSecond.dy.abs() / 10000;
-        spin(withSpeed: velocity);
-      },
-      onHorizontalDragUpdate: (details) {
-        int multiplier = 1;
+          currentOffset += multiplier * details.delta.dy / 50;
+          setState(() {});
+        },
+        onVerticalDragEnd: (details) {
+          double velocity = details.velocity.pixelsPerSecond.dy.abs() / 10000;
+          spin(withSpeed: velocity);
+        },
+        onHorizontalDragUpdate: (details) {
+          int multiplier = 1;
 
-        // check if top or bottom half
-        if (details.localPosition.dy >= widget.size / 2) {
-          multiplier = -1;
-        }
+          // check if top or bottom half
+          if (details.localPosition.dy >= widget.size / 2) {
+            multiplier = -1;
+          }
 
-        currentOffset += multiplier * details.delta.dx / 50;
-        setState(() {});
-      },
-      onHorizontalDragEnd: (details) {
-        double velocity = details.velocity.pixelsPerSecond.dx.abs() / 10000;
-        spin(withSpeed: velocity);
-      },
-      child: PieChart(
-        data: labelValues,
-        labels: widget.labels,
-        angleOffset: currentOffset,
-        radius: 1000,
-        customColours: widget.colours ??
-            [
-              Colors.red,
-              Colors.green,
-              Colors.blue,
-              Colors.yellow,
-              Colors.orange,
-              Colors.purple,
-            ],
-        textStyle: widget.textStyle ?? const TextStyle(),
+          currentOffset += multiplier * details.delta.dx / 50;
+          setState(() {});
+        },
+        onHorizontalDragEnd: (details) {
+          double velocity = details.velocity.pixelsPerSecond.dx.abs() / 10000;
+          spin(withSpeed: velocity);
+        },
+        child: PieChart(
+          data: labelValues,
+          labels: widget.labels,
+          angleOffset: currentOffset,
+          radius: 1000,
+          customColours: widget.colours ??
+              [
+                Colors.red,
+                Colors.green,
+                Colors.blue,
+                Colors.yellow,
+                Colors.orange,
+                Colors.purple,
+              ],
+          textStyle: widget.textStyle ?? const TextStyle(),
+        ),
       ),
     );
   }
