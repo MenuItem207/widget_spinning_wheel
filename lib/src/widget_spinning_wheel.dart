@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// widget for spinning a wheel
 class WidgetSpinningWheel extends StatefulWidget {
@@ -11,6 +12,7 @@ class WidgetSpinningWheel extends StatefulWidget {
   final double defaultSpeed;
   final List<Color>? colours;
   final TextStyle? textStyle;
+  final bool shouldVibrate;
   const WidgetSpinningWheel({
     super.key,
     required this.labels,
@@ -19,6 +21,7 @@ class WidgetSpinningWheel extends StatefulWidget {
     this.defaultSpeed = 0.3,
     this.colours,
     this.textStyle,
+    this.shouldVibrate = true,
   });
 
   @override
@@ -41,6 +44,22 @@ class _WidgetSpinningWheelState extends State<WidgetSpinningWheel> {
     return anglePerSection + index * anglePerSection;
   });
 
+  /// the current label based on the offset
+  String get currentLabel {
+    double angle = currentOffset.remainder(2 * pi);
+    for (int i = 0; i < labelLimits.length; i++) {
+      double limit = labelLimits[i];
+      if (angle < limit) {
+        return widget.labels.reversed.toList()[i];
+      }
+    }
+
+    throw ('cannot find');
+  }
+
+  /// the starting label before it starts spinning
+  late String previousLabel = currentLabel;
+
   /// spins the wheel
   void spin({double? withSpeed}) {
     if (timer != null) timer?.cancel();
@@ -54,15 +73,16 @@ class _WidgetSpinningWheelState extends State<WidgetSpinningWheel> {
 
       currentOffset += currentSpeed;
 
-      if (currentSpeed == 0) {
-        double angle = currentOffset.remainder(2 * pi);
-        for (int i = 0; i < labelLimits.length; i++) {
-          double limit = labelLimits[i];
-          if (angle < limit) {
-            widget.onSpinComplete(widget.labels.reversed.toList()[i]);
-            break;
-          }
+      if (widget.shouldVibrate) {
+        String latestCurrentLabel = currentLabel;
+        if (previousLabel != latestCurrentLabel) {
+          previousLabel = latestCurrentLabel;
+          HapticFeedback.lightImpact();
         }
+      }
+
+      if (currentSpeed == 0) {
+        widget.onSpinComplete(currentLabel);
 
         timer.cancel();
       }
